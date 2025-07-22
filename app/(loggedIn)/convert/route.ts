@@ -71,11 +71,21 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           return;
         }
 
-        const process = spawn("./node_modules/ffmpeg-static/ffmpeg", ffmpegArgs, { stdio: 'pipe'});
+        const process = spawn(
+          "./node_modules/ffmpeg-static/ffmpeg",
+          ffmpegArgs,
+          { stdio: "pipe" }
+        );
+
+        console.log(`
+      ==============================
+      process: ${process}
+      ==============================
+      `);
 
         let stderr = "";
         let isClosed = false;
-        
+
         process.stdout.on("data", (data: Buffer) => {
           if (!isClosed) {
             try {
@@ -85,7 +95,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             }
           }
         });
-        
+
         process.stderr.on("data", (data: Buffer) => {
           stderr += data.toString();
         });
@@ -104,7 +114,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             } else {
               try {
                 if (controller.desiredSize !== null) {
-                  controller.error(new Error(`FFmpeg failed with code ${code}: ${stderr}`));
+                  controller.error(
+                    new Error(`FFmpeg failed with code ${code}: ${stderr}`)
+                  );
                 }
               } catch (error) {
                 // Controller already closed by client
@@ -125,7 +137,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             }
           }
         });
-      }
+      },
     });
 
     // Set appropriate headers for streaming
