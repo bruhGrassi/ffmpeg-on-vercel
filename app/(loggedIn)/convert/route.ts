@@ -79,7 +79,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
         console.log(`
       ==============================
-      process: ${process}
+      process: ${JSON.stringify(process, null, 2)}
       ==============================
       `);
 
