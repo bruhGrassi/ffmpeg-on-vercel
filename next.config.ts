@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
-    "/app/convert": [
+    "/app/(loggedIn)/convert": [
       "./public/videos/sample.mp4",
       "./node_modules/ffmpeg-static/ffmpeg",
     ],
